@@ -63,4 +63,9 @@
 
 Route::get('users/{username}', 'UsersController@show');*/
 
+Route::get('/', function()
+{
+	return View::make('Hello');
+});
+
 Route::resource('users', 'UsersController');

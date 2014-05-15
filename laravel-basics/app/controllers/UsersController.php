@@ -1,10 +1,9 @@
 <?php
-
 class UsersController extends \BaseController 
 {
 	protected $user;
 
-	public function _construct(User $user)
+	public function __construct(User $user)
 	{
 		$this->user = $user;
 	}
@@ -30,13 +29,11 @@ class UsersController extends \BaseController
 
 	public function store()
 	{
-		$this->user->fill(Input::all());
+		$input = Input::all();
 
-		return $this->user->toArray();
-
-		if (!$this->user->isValid($input = Input::all()))  
+		if (!$this->user->fill($input)->isValid())  
 		{
-			return Redirect::back()->withInput()->withErrors($this->user->$messages);
+			return Redirect::back()->withInput()->withErrors($this->user->messages);
 		}
 
 		/*$user = new User;
@@ -47,7 +44,9 @@ class UsersController extends \BaseController
 
 		$user->save();*/
 
-		$this->user->create($input);
+		// $this->user->create($input);
+
+		$this->user->save();
 
 		return Redirect::route('users.index');
 	}
